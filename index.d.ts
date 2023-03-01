@@ -106,6 +106,7 @@ declare class Server extends events.EventEmitter {
     on(event: "proxyReq", listener: Server.ProxyReqCallback): this;
     on(event: "proxyRes", listener: Server.ProxyResCallback): this;
     on(event: "proxyReqWs", listener: Server.ProxyReqWsCallback): this;
+    on(event: "res", listener: Server.ResCallback): this;
     on(event: "econnreset", listener: Server.EconnresetCallback): this;
     on(event: "end", listener: Server.EndCallback): this;
     on(event: "open", listener: Server.OpenCallback): this;
@@ -117,6 +118,7 @@ declare class Server extends events.EventEmitter {
     once(event: "proxyReq", listener: Server.ProxyReqCallback): this;
     once(event: "proxyRes", listener: Server.ProxyResCallback): this;
     once(event: "proxyReqWs", listener: Server.ProxyReqWsCallback): this;
+    once(event: "res", listener: Server.ResCallback): this;
     once(event: "econnreset", listener: Server.EconnresetCallback): this;
     once(event: "end", listener: Server.EndCallback): this;
     once(event: "open", listener: Server.OpenCallback): this;
@@ -212,6 +214,11 @@ declare namespace Server {
         socket: net.Socket,
         options: ServerOptions,
         head: any,
+    ) => void;
+    type ResCallback<TIncomingMessage = http.IncomingMessage, TServerResponse = http.ServerResponse> = (
+        proxyRes: TIncomingMessage,
+        req: TIncomingMessage,
+        res: TServerResponse,
     ) => void;
     type EconnresetCallback<TError = Error, TIncomingMessage = http.IncomingMessage, TServerResponse = http.ServerResponse> = (
         err: TError,
