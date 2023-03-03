@@ -15,7 +15,7 @@
     "eventemitter3": "^4.0.0",
     "requires-port": "^1.0.0",
     "follow-redirects": "^1.0.0",
-    "http2-wrapper": "^2.2.0"
+    "http2-wrapper": "github:dav1d8/http2-wrapper"
   },
   "devDependencies": {
     "async": "^3.0.0",
