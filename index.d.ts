@@ -106,6 +106,7 @@ declare class Server extends events.EventEmitter {
     on(event: "proxyReq", listener: Server.ProxyReqCallback): this;
     on(event: "proxyRes", listener: Server.ProxyResCallback): this;
     on(event: "proxyReqWs", listener: Server.ProxyReqWsCallback): this;
+    on(event: "proxyResWs", listener: Server.ProxyResWsCallback): this;
     on(event: "res", listener: Server.ResCallback): this;
     on(event: "econnreset", listener: Server.EconnresetCallback): this;
     on(event: "end", listener: Server.EndCallback): this;
@@ -118,6 +119,7 @@ declare class Server extends events.EventEmitter {
     once(event: "proxyReq", listener: Server.ProxyReqCallback): this;
     once(event: "proxyRes", listener: Server.ProxyResCallback): this;
     once(event: "proxyReqWs", listener: Server.ProxyReqWsCallback): this;
+    once(event: "proxyResWs", listener: Server.ProxyResWsCallback): this;
     once(event: "res", listener: Server.ResCallback): this;
     once(event: "econnreset", listener: Server.EconnresetCallback): this;
     once(event: "end", listener: Server.EndCallback): this;
@@ -189,6 +191,8 @@ declare namespace Server {
         followRedirects?: boolean | undefined;
         /** If set to true, none of the webOutgoing passes are called and it's your responsibility to appropriately return the response by listening and acting on the proxyRes event */
         selfHandleResponse?: boolean | undefined;
+        /** If set to true, it's your responsibility to appropriately return the response by listening and acting on the proxyResWs event */
+        selfHandleResponseWs?: boolean | undefined;
         /** Buffer */
         buffer?: stream.Stream | undefined;
     }
@@ -214,6 +218,12 @@ declare namespace Server {
         socket: net.Socket,
         options: ServerOptions,
         head: any,
+    ) => void;
+    type ProxyResWsCallback<TIncomingMessage = http.IncomingMessage, TServerResponse = http.ServerResponse> = (
+        proxySocket: stream.Duplex,
+        socket: stream.Duplex,
+        proxyRes: TIncomingMessage,
+        req: TIncomingMessage,
     ) => void;
     type ResCallback<TIncomingMessage = http.IncomingMessage, TServerResponse = http.ServerResponse> = (
         proxyRes: TIncomingMessage,
